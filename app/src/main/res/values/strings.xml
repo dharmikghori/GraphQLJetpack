@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TestTask</string>
+    <string name="profile_image">Profile Image\n</string>
+    <string name="user_details">User Details</string>
+</resources>

@@ -1,0 +1,10 @@
+query UsersDetails($strId: ID!) {
+    user(id: $strId) {
+        id
+        name
+        username
+        email
+        phone
+        website
+    }
+}
