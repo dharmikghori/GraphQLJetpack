@@ -87,9 +87,7 @@ dependencies {
     // Apollo GraphQL
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
 
-//    implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
-//    implementation("com.apollographql.apollo:apollo-android-support:2.6.0")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 
-//    implementation("com.apollographql.apollo:apollo-runtime:2.4.6")
-//    implementation("com.apollographql.apollo:apollo-coroutines-support:2.4.6")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 }

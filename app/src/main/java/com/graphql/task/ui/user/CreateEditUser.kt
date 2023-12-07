@@ -28,17 +28,15 @@ import androidx.navigation.NavController
 import com.graphql.task.theme.AppTheme
 import com.graphql.task.ui.composables.PrimaryButton
 import com.graphql.task.ui.composables.PrimaryText
-import com.graphql.task.ui.navigation.Screen
 import com.graphql.task.user.UserViewModel
 import com.graphql.test.R
+import com.graphql.test.UsersDetailsQuery
 
 @Composable
-fun UserDetails(navController: NavController, userId: String) {
+fun CreateEditUser(navController: NavController, userInfo: UsersDetailsQuery.User?) {
     val viewModel = hiltViewModel<UserViewModel>()
     val uiState = viewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = 1) {
-        viewModel.getUserDetails(userId)
-    }
+
     Column {
 
         Row(
@@ -151,13 +149,7 @@ fun UserDetails(navController: NavController, userId: String) {
                         }
 
                         PrimaryButton(
-                            onClick = {
-                                navController.navigate(
-                                    Screen.CreateEditUser.createRoute(
-                                        userData
-                                    )
-                                )
-                            }, text = stringResource(
+                            onClick = { }, text = stringResource(
                                 R.string.edit_user
                             )
                         )

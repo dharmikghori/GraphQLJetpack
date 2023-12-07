@@ -38,11 +38,25 @@ class UserViewModel @Inject constructor(
     }
 
 
-    fun getUserDetails(userId:String) {
+    fun getUserDetails(userId: String) {
         viewModelScope.launch(dispatcher) {
             when (val result = userUseCase.userDetails(userId)) {
                 is Result.Success -> {
                     _uiState.emit(UiState.LoadedDetails(result.data))
+                }
+
+                is Result.Error -> {
+                    _uiState.emit(UiState.Error(result.errorMsg))
+                }
+            }
+        }
+    }
+
+    fun deleteUserFromId(userId: String) {
+        viewModelScope.launch(dispatcher) {
+            when (val result = userUseCase.deleteUserFromId(userId)) {
+                is Result.Success -> {
+                    _uiState.emit(UiState.DeleteUser(result.data))
                 }
 
                 is Result.Error -> {
@@ -58,5 +72,6 @@ class UserViewModel @Inject constructor(
         data class Error(val message: String) : UiState()
         data class LoadedUsers(val users: List<UserListQuery.Data1?>?) : UiState()
         data class LoadedDetails(val userDetail: UsersDetailsQuery.User) : UiState()
+        data class DeleteUser(val isDeleted: Boolean) : UiState()
     }
 }

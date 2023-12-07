@@ -23,4 +23,12 @@ class UserUseCase @Inject constructor(private val repository: UserRepository) {
             Result.Error(exception.message ?: "Error Getting UserDetails")
         }
     }
+
+    suspend fun deleteUserFromId(userId: String): Result<Boolean> {
+        return try {
+            Result.Success(repository.deleteUserFromId(userId))
+        } catch (exception: Exception) {
+            Result.Error(exception.message ?: "Unable to delete user")
+        }
+    }
 }

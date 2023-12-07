@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Scaffold
 import androidx.core.view.WindowCompat
-import com.graphql.task.theme.MyTheme
+import com.graphql.task.theme.AppTheme
 import com.graphql.task.ui.App
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            MyTheme {
+            AppTheme {
                 Scaffold(
                     content = { App() },
                 )

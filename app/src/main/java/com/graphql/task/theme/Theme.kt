@@ -1,34 +1,65 @@
 package com.graphql.task.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-private val DarkColorPalette = darkColorScheme(
-    primary = Purple200,
-    primaryContainer = Purple700,
-    secondary = Teal200
-)
+private val LocalColors = staticCompositionLocalOf { lightColors() }
+private val LocalTypography = staticCompositionLocalOf { AppTypography() }
+private val LocalImages = staticCompositionLocalOf { AppImages() }
 
-private val LightColorPalette = lightColorScheme(
-    primary = Purple500,
-    primaryContainer = Purple700,
-    secondary = Teal200
-)
+object AppTheme {
+    val colors: AppColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColors.current
+
+    val typography: AppTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
+
+    val images: AppImages
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalImages.current
+}
 
 @Composable
-fun MyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+fun AppTheme(
+    modifier: Modifier = Modifier,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable
+    BoxScope.() ->
+    Unit,
+) {
+    val systemUiController = rememberSystemUiController()
+    LaunchedEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = true,
+            isNavigationBarContrastEnforced = false
+        )
     }
 
-    MaterialTheme(
-        colorScheme = colors,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalColors provides lightColors(),
+        LocalTypography provides AppTypography(),
+        LocalImages provides AppImages(),
+        LocalIndication provides rememberRipple()
+    ) {
+        Box(modifier) {
+            content()
+        }
+    }
 }

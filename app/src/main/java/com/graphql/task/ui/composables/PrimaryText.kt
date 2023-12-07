@@ -3,20 +3,21 @@ package com.graphql.task.ui.composables
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import com.graphql.task.theme.AppTheme
 
 @Composable
 fun PrimaryText(
     text: String,
+    style: TextStyle,
+    color: Color = AppTheme.colors.black,
     modifier: Modifier = Modifier,
-    textSize: TextUnit = 24.sp
 ) {
     Text(
         text = text,
-        fontSize = textSize,
-        fontWeight = FontWeight.W400,
-        modifier = modifier
+        style = style,
+        modifier = modifier,
+        color = color
     )
 }
