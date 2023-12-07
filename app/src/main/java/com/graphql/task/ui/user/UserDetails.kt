@@ -25,10 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.graphql.task.theme.AppTheme
 import com.graphql.task.ui.composables.PrimaryButton
 import com.graphql.task.ui.composables.PrimaryText
 import com.graphql.task.ui.navigation.Screen
+import com.graphql.task.ui.showToast
 import com.graphql.task.user.UserViewModel
 import com.graphql.test.R
 
@@ -39,7 +41,7 @@ fun UserDetails(navController: NavController, userId: String) {
     LaunchedEffect(key1 = 1) {
         viewModel.getUserDetails(userId)
     }
-    Column {
+    Column(modifier = Modifier.fillMaxWidth()) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -65,6 +67,7 @@ fun UserDetails(navController: NavController, userId: String) {
         }
         Box(
             Modifier
+                .fillMaxWidth()
                 .fillMaxSize()
         ) {
 
@@ -81,7 +84,7 @@ fun UserDetails(navController: NavController, userId: String) {
 
                 is UserViewModel.UiState.LoadedDetails -> {
                     val userData = state.userDetail
-                    Column() {
+                    Column(Modifier.fillMaxWidth()) {
                         Row(
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -151,10 +154,14 @@ fun UserDetails(navController: NavController, userId: String) {
                         }
 
                         PrimaryButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterHorizontally)
+                                .padding(10.dp),
                             onClick = {
                                 navController.navigate(
                                     Screen.CreateEditUser.createRoute(
-                                        userData
+                                        Gson().toJson(userData)
                                     )
                                 )
                             }, text = stringResource(
@@ -166,7 +173,7 @@ fun UserDetails(navController: NavController, userId: String) {
 
                 is UserViewModel.UiState.Error -> {
                     val errorMsg = state.message
-                    Toast.makeText(LocalContext.current, errorMsg, Toast.LENGTH_LONG).show()
+                    LocalContext.current.showToast(errorMsg)
                     PrimaryText(style = AppTheme.typography.regularMontserrat14, text = errorMsg)
                 }
 

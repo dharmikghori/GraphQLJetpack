@@ -18,7 +18,7 @@ import com.graphql.task.theme.AppTheme
 import com.graphql.test.UserListQuery
 
 @Composable
-fun UserCard(user: UserListQuery.Data1, onClick: (String) -> Unit) {
+fun UserCard(user: UserListQuery.Data1, onClick: (String) -> Unit, onDelete: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,6 +45,9 @@ fun UserCard(user: UserListQuery.Data1, onClick: (String) -> Unit) {
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
+                    .clickable {
+                        onDelete.invoke(user.id.toString())
+                    }
                     .size(25.dp),
                 painter = AppTheme.images.deleteUser,
                 contentDescription = "null"

@@ -9,6 +9,6 @@ sealed class Screen(val route: String) {
         fun createRoute(userId: String) = "details/$userId"
     }
     object CreateEditUser : Screen("CreateEditUser/{userData}") {
-        fun createRoute(userData: UsersDetailsQuery.User) = "CreateEditUser/$userData"
+        fun createRoute(userData: String) = "CreateEditUser/$userData"
     }
 }

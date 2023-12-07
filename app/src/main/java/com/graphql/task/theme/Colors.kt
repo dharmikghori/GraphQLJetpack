@@ -9,8 +9,8 @@ data class AppColors(
     val fillSecondary: Color,
     val black: Color,
     val white: Color,
-) {
-}
+    val red: Color,
+)
 
 internal fun lightColors() = AppColors(
     background = Color(0xFFF5F7F9),
@@ -18,7 +18,7 @@ internal fun lightColors() = AppColors(
     fillSecondary = Color(0xFF9FE2BF),
     black = Color.Black,
     white = Color.White,
-
-    )
+    red = Color.Red,
+)
 
 

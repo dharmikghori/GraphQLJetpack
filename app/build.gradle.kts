@@ -90,4 +90,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+
+    implementation("com.google.code.gson:gson:2.10.1")
 }

@@ -8,4 +8,11 @@
     <string name="website">Website:</string>
     <string name="phone">Phone:</string>
     <string name="edit_user">Edit User</string>
+    <string name="create_user">Create User</string>
+    <string name="save">Save</string>
+    <string name="please_enter_name">Please enter name</string>
+    <string name="user_deleted">User deleted</string>
+    <string name="user_name">Username</string>
+    <string name="user_created">User created</string>
+    <string name="user_updated">User updated</string>
 </resources>

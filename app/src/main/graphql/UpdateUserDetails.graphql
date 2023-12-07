@@ -1,0 +1,19 @@
+mutation UpdateUser($strId: ID!,$name:String!, $userName:String!, $email:String!, $phone:String!,$website:String!) {
+    updateUser(
+        id: $strId
+        input: {
+            name: $name
+            username: $userName
+            email:$email
+            phone:$phone
+            website: $website
+        }
+    ) {
+        id
+        name
+        username
+        email
+        phone
+        website
+    }
+}

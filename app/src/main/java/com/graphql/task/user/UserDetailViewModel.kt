@@ -6,6 +6,8 @@ import com.graphql.test.UserListQuery
 import com.graphql.test.UsersDetailsQuery
 import com.graphql.task.domain.Result
 import com.graphql.task.domain.usecase.usercase.UserUseCase
+import com.graphql.test.CreateUserMutation
+import com.graphql.test.UpdateUserMutation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -66,6 +68,34 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun updateUser(user: UpdateUserMutation.UpdateUser) {
+        viewModelScope.launch(dispatcher) {
+            when (val result = userUseCase.updateUser(user)) {
+                is Result.Success -> {
+                    _uiState.emit(UiState.UpdateUser(result.data))
+                }
+
+                is Result.Error -> {
+                    _uiState.emit(UiState.Error(result.errorMsg))
+                }
+            }
+        }
+    }
+
+    fun createUser(user: CreateUserMutation.CreateUser) {
+        viewModelScope.launch(dispatcher) {
+            when (val result = userUseCase.createUser(user)) {
+                is Result.Success -> {
+                    _uiState.emit(UiState.CreateUser(result.data))
+                }
+
+                is Result.Error -> {
+                    _uiState.emit(UiState.Error(result.errorMsg))
+                }
+            }
+        }
+    }
+
 
     sealed class UiState {
         data object Loading : UiState()
@@ -73,5 +103,7 @@ class UserViewModel @Inject constructor(
         data class LoadedUsers(val users: List<UserListQuery.Data1?>?) : UiState()
         data class LoadedDetails(val userDetail: UsersDetailsQuery.User) : UiState()
         data class DeleteUser(val isDeleted: Boolean) : UiState()
+        data class UpdateUser(val user: UpdateUserMutation.UpdateUser) : UiState()
+        data class CreateUser(val user: CreateUserMutation.CreateUser) : UiState()
     }
 }

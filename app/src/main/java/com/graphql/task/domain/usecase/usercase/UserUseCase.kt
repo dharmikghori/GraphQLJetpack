@@ -4,6 +4,8 @@ import com.graphql.test.UserListQuery
 import com.graphql.test.UsersDetailsQuery
 import com.graphql.task.domain.Result
 import com.graphql.task.domain.data.UserRepository
+import com.graphql.test.CreateUserMutation
+import com.graphql.test.UpdateUserMutation
 import javax.inject.Inject
 
 class UserUseCase @Inject constructor(private val repository: UserRepository) {
@@ -29,6 +31,21 @@ class UserUseCase @Inject constructor(private val repository: UserRepository) {
             Result.Success(repository.deleteUserFromId(userId))
         } catch (exception: Exception) {
             Result.Error(exception.message ?: "Unable to delete user")
+        }
+    }
+
+    suspend fun updateUser(updateUserMutation: UpdateUserMutation.UpdateUser): Result<UpdateUserMutation.UpdateUser> {
+        return try {
+            Result.Success(repository.updateUser(updateUserMutation))
+        } catch (exception: Exception) {
+            Result.Error(exception.message ?: "Unable to update user")
+        }
+    }
+    suspend fun createUser(createUser: CreateUserMutation.CreateUser): Result<CreateUserMutation.CreateUser> {
+        return try {
+            Result.Success(repository.createUser(createUser))
+        } catch (exception: Exception) {
+            Result.Error(exception.message ?: "Unable to Create user")
         }
     }
 }

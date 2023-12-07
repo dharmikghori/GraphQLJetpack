@@ -62,6 +62,11 @@ class AppTypography(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp
     ),
+    val mediumMontserrat14: TextStyle = TextStyle(
+        fontFamily = montserrat,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    ),
 
     val regularMontserrat14: TextStyle = TextStyle(
         fontFamily = montserrat,

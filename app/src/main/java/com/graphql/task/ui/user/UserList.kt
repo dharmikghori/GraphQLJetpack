@@ -25,10 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.google.gson.Gson
 import com.graphql.task.theme.AppTheme
 import com.graphql.task.ui.composables.PrimaryText
 import com.graphql.task.ui.composables.UserCard
 import com.graphql.task.ui.navigation.Screen
+import com.graphql.task.ui.showToast
 import com.graphql.task.user.UserViewModel
 import com.graphql.test.R
 
@@ -36,9 +38,7 @@ import com.graphql.test.R
 fun UsersList(navController: NavHostController) {
     val viewModel = hiltViewModel<UserViewModel>()
     val uiState = viewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = 1) {
-        viewModel.getUsers()
-    }
+    viewModel.getUsers()
     Column {
 
         Row(
@@ -76,9 +76,16 @@ fun UsersList(navController: NavHostController) {
                         LazyColumn {
                             items(users.size) {
                                 users[it]?.let { user ->
-                                    UserCard(user = user) {
-                                        navController.navigate(Screen.Detail.createRoute(user.id.toString()))
-                                    }
+                                    UserCard(
+                                        user = user,
+                                        onClick = {
+                                            navController.navigate(
+                                                Screen.Detail.createRoute(user.id.toString())
+                                            )
+                                        },
+                                        onDelete = {
+                                            viewModel.deleteUserFromId(user.id.toString())
+                                        })
                                 }
                             }
                         }
@@ -87,7 +94,7 @@ fun UsersList(navController: NavHostController) {
 
                 is UserViewModel.UiState.Error -> {
                     val errorMsg = state.message
-                    Toast.makeText(LocalContext.current, errorMsg, Toast.LENGTH_LONG).show()
+                    LocalContext.current.showToast(errorMsg)
                     PrimaryText(
                         style = AppTheme.typography.regularMontserrat14,
                         text = errorMsg,
@@ -95,14 +102,24 @@ fun UsersList(navController: NavHostController) {
                     )
                 }
 
-                else -> {}
+                is UserViewModel.UiState.DeleteUser -> {
+                    LocalContext.current.showToast(stringResource(R.string.user_deleted))
+//                    viewModel.getUsers()
+                }
+
+                else -> {
+                }
             }
 
             FloatingActionButton(
                 containerColor = AppTheme.colors.fillSecondary,
                 shape = RoundedCornerShape(100.dp),
                 onClick = {
-                    navController.navigate(Screen.Detail.createRoute("10"))
+                    navController.navigate(
+                        Screen.CreateEditUser.createRoute(
+                            "null"
+                        )
+                    )
                 },
                 modifier = Modifier
                     .padding(bottom = 60.dp)

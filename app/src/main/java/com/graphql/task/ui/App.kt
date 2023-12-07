@@ -1,7 +1,6 @@
 package com.graphql.task.ui
 
 import android.os.Build
-import android.os.Parcelable
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
@@ -10,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.graphql.task.ui.user.UserDetails
 import com.graphql.task.ui.user.UsersList
 import com.graphql.task.ui.navigation.Screen
@@ -36,10 +36,12 @@ fun App() {
         }
 
         composable(Screen.CreateEditUser.route) {
-            val userInfo: UsersDetailsQuery.User? = it.arguments?.getParcelable(
-                "userData",
-                UsersDetailsQuery.User::class.java
-            )
+
+            val get = it.arguments?.getString("userData")
+            var userInfo: UsersDetailsQuery.User? = null
+            if (get != null && get != "null") {
+                userInfo = Gson().fromJson(get, UsersDetailsQuery.User::class.java)
+            }
             CreateEditUser(navController, userInfo)
         }
     }
